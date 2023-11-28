@@ -191,9 +191,6 @@ CongTy sapXepTangDanTheoTen(CongTy cTy)
 	}
 	return ketQua;
 }
-
-________________________________
-#include "Header.h"
 void hienThiMenu()
 {
 	int chon = 0;
@@ -266,6 +263,9 @@ void hienThiMenu()
 		}
 	} while (chon != 0);
 }
+
+________________________________
+#include "Header.h"
 
 void main() {
 	hienThiMenu();
