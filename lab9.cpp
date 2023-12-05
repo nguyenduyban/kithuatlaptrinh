@@ -39,12 +39,12 @@ int tongViTriLe(DAYSO a, int i) {
 }
 int tongLe(DAYSO a, int i) {
 	if (i >= a.n) return 0;
-	if (i % 2 != 0) return a.list[i] + tongLe(a, i + 1);
+	if (a.list[i] % 2 != 0) return a.list[i] + tongLe(a, i + 1);
 	else return tongLe(a, i + 1);
 }
 int demChanDuong (DAYSO a, int i) {
 	if (i >= a.n) return 0;
-	if (a.list[i] % 2 != 0 && a.list[i] > 0) return a.list[i] + demChanDuong(a, i + 1);
+	if (a.list[i] % 2 != 0 && a.list[i] > 0) return 1 + demChanDuong(a, i + 1);
 	else return demChanDuong(a, i + 1);
 }
 int timMax(DAYSO a, int n) {
@@ -52,6 +52,34 @@ int timMax(DAYSO a, int n) {
 	if (a.list[n-1] > timMax(a,n-1)) return a.list[n-1];
 	else return timMax(a, n - 1);
 
+}
+int timMin(DAYSO a, int n) {
+	if (n == 1) return a.list[0];
+	if (a.list[n - 1] < timMin(a, n - 1)) return a.list[n - 1];
+	else return timMin(a, n - 1);
+
+}
+bool KiemTra_ToanChan(DAYSO a, int n)
+{
+	while (n > 0)
+	{
+		int t = n % 10; 
+		if (a.list[t] % 2 != 0)
+			return false;
+		n = n / 10;
+	}
+	return true;
+}
+bool KiemTra_ToanLe(DAYSO a, int n)
+{
+	while (n > 0)
+	{
+		int t = n % 10;
+		if (a.list[t] % 2 == 0)
+			return true;
+		n = n / 10;
+	}
+	return false;
 }
 __________________________________
 #include"Header.h"
@@ -67,6 +95,18 @@ int main() {
 	xuatDaySo(a);
 	cout << "\nTong cac phan tu trong day so :" << tongViTriLe(a, 0);
 	demChanDuong(a,0);
-	cout << "\dem cac phan tu chan trong day so :" << demChanDuong(a, 0);
+	cout << "\ndem cac phan tu chan trong day so :" << demChanDuong(a, 0);
+	cout << "\nChu so max :" << timMax(a, n);
+	cout << "\nChu so min :" << timMin(a, n);
+	bool toanChan = KiemTra_ToanChan(a,n);
+	if (toanChan == true)
+		cout << "\nToan Chan";
+	else
+		cout << "\nKhong toan chan" << endl;
+	bool toanLe = KiemTra_ToanLe(a, n);
+	if (toanLe == false)
+		cout << "\nToan Le";
+	else
+		cout << "\nKhong toan Le" << endl;
 	return 0;
 }
