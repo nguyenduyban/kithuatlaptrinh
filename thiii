@@ -11,10 +11,18 @@ struct ARR_INT {
     int arr[MAX];
     int k;
 };
-
+struct MATRIX {
+    int arr[MAX][MAX];
+    int n;
+};
 void nhap_mang(ARR_INT& a);
 void xuat_nguyen_am(ARR_INT a);
 int tim_x(ARR_INT a);
+void nhap_ma_tran(MATRIX& a);
+void xuat_so_chinh_phuong_tren_cheo_phu(MATRIX a);
+bool kiem_tra_sap_xep_tang_dan(MATRIX a);
+string loai_bo_ky_tu(string S, int pos, int k)
+int tinhTong(int n) 
 _______________
 Source.cpp:
 
@@ -53,6 +61,56 @@ int tim_x(ARR_INT a) {
     }
     return max_val;
 }
+void nhap_ma_tran(MATRIX& a) {
+    cout << "Nhap kich thuoc ma tran (n x n): ";
+    cin >> a.n;
+    for (int i = 0; i < a.n; i++) {
+        for (int j = 0; j < a.n; j++) {
+            cout << "Nhap phan tu thu [" << i << "][" << j << "]: ";
+            cin >> a.arr[i][j];
+        }
+    }
+}
+
+void xuat_so_chinh_phuong_tren_cheo_phu(MATRIX a) {
+    cout << "Cac so chinh phuong tren duong cheo phu cua ma tran la: ";
+    for (int i = 0; i < a.n; i++) {
+        if (sqrt(a.arr[i][a.n - i - 1]) == floor(sqrt(a.arr[i][a.n - i - 1]))) {
+            cout << a.arr[i][a.n - i - 1] << " ";
+        }
+    }
+    cout << endl;
+}
+bool kiem_tra_sap_xep_tang_dan(MATRIX a) {
+    int temp[MAX * MAX];
+    int k = 0;
+    for (int i = 0; i < a.n; i++) {
+        for (int j = 0; j < a.n; j++) {
+            temp[k++] = a.arr[i][j];
+        }
+    }
+    sort(temp, temp + k);
+    for (int i = 0; i < k; i++) {
+        if (temp[i] != a.arr[i / a.n][i % a.n]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+//cau 3
+string loai_bo_ky_tu(string S, int pos, int k) {
+    S.erase(pos, k);
+    return S;
+}
+//cau 4 
+int tinhTong(int n) {
+    if (n == 1) {
+        return 1;
+    } else {
+        return n + tinhTong(n - 1);
+    }
+}
 Main.cpp:
 
 #include "Header.h"
@@ -63,5 +121,31 @@ int main() {
     xuat_nguyen_am(a);
     int x = tim_x(a);
     cout << "Gia tri x can tim la: " << x << endl;
+    MATRIX a;
+    nhap_ma_tran(a);
+    xuat_so_chinh_phuong_tren_cheo_phu(a);
+    if (kiem_tra_sap_xep_tang_dan(a)) {
+        cout << "Cac gia tri tren bang h cua ma tran duoc sap xep tang dan." << endl;
+    } else {
+        cout << "Cac gia tri tren bang h cua ma tran KHONG duoc sap xep tang dan." << endl;
+    }
+//cau  3
+  string S;
+    int pos, k;
+    cout << "Nhap chuoi S: ";
+    getline(cin, S);
+    cout << "Nhap vi tri bat dau (pos): ";
+    cin >> pos;
+    cout << "Nhap so ky tu can loai bo (k): ";
+    cin >> k;
+
+    string ket_qua = loai_bo_ky_tu(S, pos, k);
+    cout << "Ket qua sau khi loai bo: " << ket_qua << endl;
+int N;
+    cout << "Nhap so nguyen duong N: ";
+    cin >> N;
+
+    int tong = tinhTong(N);
+    cout << "Tong S = 1 + 2 + 3 + ... + " << N << " la: " << tong << endl;
     return 0;
 }
