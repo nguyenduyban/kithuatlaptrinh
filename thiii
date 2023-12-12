@@ -1,0 +1,67 @@
+//câu 1
+Header.h:
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+const int MAX = 100;
+
+struct ARR_INT {
+    int arr[MAX];
+    int k;
+};
+
+void nhap_mang(ARR_INT& a);
+void xuat_nguyen_am(ARR_INT a);
+int tim_x(ARR_INT a);
+_______________
+Source.cpp:
+
+#include "Header.h"
+
+void nhap_mang(ARR_INT& a) {
+    cout << "Nhap so phan tu cua mang: ";
+    cin >> a.k;
+    for (int i = 0; i < a.k; i++) {
+        do {
+            cout << "Nhap phan tu thu " << i + 1 << ": ";
+            cin >> a.arr[i];
+        } while (abs(a.arr[i]) >= 100);
+    }
+}
+
+bool la_nguyen_am(int x) {
+    return x == 'a' || x == 'e' || x == 'i' || x == 'o' || x == 'u';
+}
+
+void xuat_nguyen_am(ARR_INT a) {
+    cout << "Cac gia tri nguyen am trong mang la: ";
+    for (int i = 0; i < a.k; i++) {
+        if (a.arr[i] < 0 && la_nguyen_am(abs(a.arr[i]) % 256)) {
+            cout << a.arr[i] << " ";
+        }
+    }
+    cout << endl;
+}
+int tim_x(ARR_INT a) {
+    int max_val = a.arr[0];
+    for (int i = 1; i < a.k; i++) {
+        if (abs(a.arr[i]) > max_val) {
+            max_val = abs(a.arr[i]);
+        }
+    }
+    return max_val;
+}
+Main.cpp:
+
+#include "Header.h"
+
+int main() {
+    ARR_INT a;
+    nhap_mang(a);
+    xuat_nguyen_am(a);
+    int x = tim_x(a);
+    cout << "Gia tri x can tim la: " << x << endl;
+    return 0;
+}
